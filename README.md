@@ -6,7 +6,7 @@ Prices listed in the database are listed in USD, and are static unless manually 
 
 ## Access
 
-url: `http://localhost:8082/currency/`
+url: `https://forex-server.herokuapp.com/currency`
 
 ## Data Structure
 
