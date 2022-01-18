@@ -3,7 +3,7 @@ const { isAdmin } = require("../controllers/authController")
 const router = require('express').Router()
 
 
-router.post('/', isAdmin, currencyController.addCurrency)
+router.post('/', currencyController.addCurrency)
 
 router.get('/', currencyController.getAllCurrencies)
 
