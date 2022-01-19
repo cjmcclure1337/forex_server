@@ -11,17 +11,22 @@ if (process && process.env.DATABASE_URL) {
             require: true,
             rejectUnauthorized: false
             }
-            }
         }
-    );
+    });
 } else {
-    sequelize = new Sequelize(
+    sequelize = new Sequelize(dbConfig.URL,
     { // use imported configurations from dbConfig
         database: dbConfig.DB,
         username: dbConfig.USER,
         password: dbConfig.PASSWORD,
         dialect: dbConfig.dialect,
         host: dbConfig.HOST,
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized: false
+                }
+            }
     })
 }
 
