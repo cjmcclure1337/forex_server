@@ -1,42 +1,73 @@
 const db = require('../models/index')
 const Currency = db.Currency;
 
-const addCurrency = async (req, res) => {
+const addCurrency = (req, res) => {
     let input_data = {
         name: req.body.name,
         code: req.body.code,
         symbol: req.body.symbol,
         lastPrice: req.body.lastPrice
     }
-    const currency = await Currency.create(input_data)
-    
-    res.status(200).send(currency)
+    Currency.create(input_data)
+    .then((currency) => {
+        res.status(200).send(currency)
+    })
+    .catch(err => {
+        res.status(400);
+        res.send(err);
+    });
 }  
 
-const getAllCurrencies = async (req, res) => {
-    let currency = await Currency.findAll({})
-    res.status(200).send(currency)
+const getAllCurrencies = (req, res) => {
+    Currency.findAll({})
+    .then((currency) => {
+        res.status(200).send(currency)
+    })
+    .catch(err => {
+        res.status(400);
+        res.send(err);
+    });
 } 
 
-const getOneCurrency = async (req, res) => {
+const getOneCurrency = (req, res) => {
     let id = req.params.id
     
-    let currency = await Currency.findOne({where: {code: id}})
-    res.status(200).send(currency)
+    Currency.findOne({where: {code: id}})
+    .then((currency) => {
+        res.status(200).send(currency)
+    })
+    .catch(err => {
+        res.status(400);
+        res.send(err);
+    });
 }
 
-const updateCurrency = async (req, res) => {
+const updateCurrency = (req, res) => {
     let id = req.params.id
 
-    const currency = await Currency.update(req.body, { where: {code: id}})
-    res.status(200).send(currency)
+    Currency.update(req.body, { where: {code: id}})
+    .then((currency) => {
+        res.status(200).send(currency)
+    })
+    .catch(err => {
+        res.status(400);
+        res.send(err);
+    });
+    
 }
 
-const deleteCurrency = async (req, res) => {
+const deleteCurrency = (req, res) => {
     let id = req.params.id
 
-    await Currency.destroy({where :{code: id}})
-    res.status(200).send(`currency with id: ${id} is deleted`)
+    Currency.destroy({where :{code: id}})
+    .then(() => {
+        res.status(200).send(`currency with id: ${id} is deleted`)
+    })
+    .catch(err => {
+        res.status(400);
+        res.send(err);
+    });
+    
 }   
 
 module.exports = {
