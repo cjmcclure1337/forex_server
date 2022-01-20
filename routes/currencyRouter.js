@@ -5,9 +5,9 @@ const router = require('express').Router()
 
 router.post('/', currencyController.addCurrency)
 
-router.get('/', currencyController.getAllCurrencies)
+router.get('/', currencyController.checkAllUpdates, currencyController.getAllCurrencies)
 
-router.get('/:id', currencyController.getOneCurrency)
+router.get('/:id', currencyController.checkOneUpdate, currencyController.getOneCurrency)
 
 router.put('/:id', isAdmin, currencyController.updateCurrency)
 
