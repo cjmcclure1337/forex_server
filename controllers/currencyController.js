@@ -8,12 +8,12 @@ const apiUrl2 = "&to=USD&amount=1&api_key=284e875929acc9718e9af7d4e2ccc1187e05de
 
 const checkOneUpdate = (req, res, next) => {
     let now = new Date();
-    if (now.getTime() > lastUpdate[req.params.id].getTime() + delay) {
+    if (now.getTime() > lastUpdate[req.params.id] + delay) {
         requestify.get(apiUrl1 + req.params.id + apiUrl2)
         .then((response) => {
             console.log("Response USD rate: ", response.getBody().rates["USD"].rate)
             let price = response.getBody().rates["USD"].rate;
-            lastUpdate[req.params.id] = new Date();
+            lastUpdate[req.params.id] = now.getTime();
             return Currency.update({lastPrice: price}, { where: {code: req.params.id}})
         })
         .then(() => {
@@ -34,7 +34,7 @@ const checkAllUpdates = (req, res, next) => {
     let ids = Object.keys(lastUpdate);
     console.log("Update keys: ", ids)
     let requests = ids.reduce((prev, curr) => {
-        if(now.getTime() > lastUpdate[curr].getTime() + delay) {
+        if(now.getTime() > lastUpdate[curr] + delay) {
             return prev.concat([requestify.get(apiUrl1 + curr + apiUrl2)]);
         } else {
             return prev;
@@ -47,7 +47,7 @@ const checkAllUpdates = (req, res, next) => {
             console.log("Results: ", val.getBody());
             let id = val.getBody().base_currency_code;
             console.log("ID: ", id)
-            lastUpdate[id] = new Date();
+            lastUpdate[id] = now.getTime();
             return Currency.update({lastPrice: val.getBody().rates["USD"].rate}, {where: {code: id}})
         })
         return Promise.all(promiseArray);

@@ -1,12 +1,16 @@
+let serverStart = new Date();
+let delay = 7200000;
+let defaultTime = serverStart.getTime() - delay;
+
 module.exports = {
 //    USD: new Date(),
-    EUR: new Date(),
-    JPY: new Date(),
-    GBP: new Date(),
-    AUD: new Date(),
-    CAD: new Date(),
-    CHF: new Date(),
-    CNY: new Date(),
-    HKD: new Date(),
-    NZD: new Date()
+    EUR: defaultTime,
+    JPY: defaultTime,
+    GBP: defaultTime,
+    AUD: defaultTime,
+    CAD: defaultTime,
+    CHF: defaultTime,
+    CNY: defaultTime,
+    HKD: defaultTime,
+    NZD: defaultTime
 }
